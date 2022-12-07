@@ -12,6 +12,9 @@ export class App extends Component {
     contacts: [],
     filter: '',
   };
+ 
+
+  
 
   addContact = (name, number) => {
     const { contacts } = this.state;
@@ -46,7 +49,17 @@ export class App extends Component {
     return contacts.filter(contact =>
       contact.name.toLowerCase().includes(normalizedFilter)
     );
-  };
+  }; 
+
+  componentDidMount(){const contacts=localStorage.getItem("contacts")
+ 
+    const parselContacts=JSON.parse(contacts)
+    if(parselContacts){this.setState({contacts:parselContacts})}
+    
+  }
+
+componentDidUpdate(prevProps, prevState){if (this.state.contacts!==prevState.contacts){
+  localStorage.setItem("contacts",JSON.stringify(this.state.contacts))}}
   render() {
     const { contacts, filter } = this.state;
     const visibleContacts = this.getVisibleContacts();
